@@ -1,0 +1,140 @@
+﻿@{
+    ViewData["Title"] = "Login Page";
+    Layout = "_LayoutLogin";
+}
+
+<div class="container">
+    <div class="img">
+        <img src="/img/pc.svg" />
+    </div>
+    <div class="login-container">
+        <form method="post" action="/Logins/Auth">
+            <img class="avator" src="https://freesvg.org/img/publicdomainq-0006514oahggv.png">
+            <h2>Join us</h2>
+            <div class="alert alert-warning text-center">
+                Email or Password is not Correct!!!
+            </div>
+            <div class="input-div" one>
+                <div class="i">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div>
+                    <h5>Email</h5>
+                    <input class="input" name="Email" id="Email" type="text" />
+                </div>
+            </div>
+            <div class="input-div" two>
+                <div class="i">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <div>
+                    <h5>password</h5>
+                    <input class="input" name="Password" id="Password" type="password" validate />
+                </div>
+            </div>
+            <a href="#">Forgot password ?</a>
+            <input type="submit" class="btn" value="Login" />
+            <a href="#" data-toggle="modal" data-target="#modalData">Registrasi</a>
+        </form>
+    </div>
+</div>
+<footer>
+    Copyright © 2021 - All rights Reserved -
+</footer>
+
+@section scripts{
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        var obj = new Object();
+        function ImageToBase64(inputGambar) {
+            var file = inputGambar.files[0];
+            var batasUkuranFile = 5 * 1024 * 1024; // 5 MB
+
+            if (file) {
+                if (file.type.startsWith('image/')) {
+                    if (file.size <= batasUkuranFile) {
+                        var pembaca = new FileReader();
+                        pembaca.onloadend = function () {
+                            var stringBase64 = pembaca.result.split(',')[1];
+                            // Mengasumsikan Anda memiliki elemen dengan ID "Photo-strImgBs64"
+                            $('#Photo-strImgBs64').val(stringBase64);
+                        };
+                        pembaca.readAsDataURL(file);
+                    } else {
+                        tanganiErrorFile('Ukuran file terlalu besar. Maksimum 5 MB diizinkan.');
+                    }
+                } else {
+                    tanganiErrorFile('Pilih file gambar yang valid.');
+                }
+            }
+        }
+
+        function tanganiErrorFile(pesanError) {
+            Swal.fire({
+                icon: 'warning',
+                text: pesanError,
+                showConfirmButton: false,
+                timer: 1500
+            });
+            // Mengatur ulang nilai input file
+            $('#Photo').val('');
+        }
+
+        $('#btnRegistration').click(function (e) {
+            obj = {};
+            obj.CompanyName = $('#CompanyName').val();
+            obj.Email = $('#EmailR').val();
+            obj.Password = $('#PasswordR').val();
+            obj.Phone = $('#Phone').val();
+            obj.Photo = $('#Photo-strImgBs64').val();
+            obj.RoleId = 3;
+            var isEmpty = Object.values(obj).some(value => !value);
+            if (isEmpty) {
+                Swal.fire({
+                    icon: 'warning',
+                    text: 'Please fill in all the required fields.',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            } else {
+                $.ajax({
+                    url: "/Users/Register",
+                    'type': 'POST',
+                    'data': { entity: obj },
+                    'dataType': 'json',
+                }).done((result) => {
+                    if (result == 200) {
+                        Swal.fire({
+                            title: "Good job!",
+                            text: "Berhasil Registrasi, silahkan Login menggunakan menggunakan akun anda.",
+                            icon: "success",
+                            showConfirmButton: false,
+                            timer: 2000
+                        }).then(function () {
+                            window.location.reload();
+                        });
+                    } else if (result == 400) {
+                        Swal.fire({
+                            title: "Failed!",
+                            text: "Data Gagal ditambahkan.",
+                            icon: "error",
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+                }).fail((error) => {
+                    Swal.fire({
+                        title: "Failed!",
+                        text: "Data Gagal ditambahkan.",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                })
+
+            }
+        });
+    </script>
+    <script src="/Scripts/Admin/Role/main.js"></script>
+}

@@ -1,0 +1,311 @@
+﻿@{
+    ViewData["Title"] = "Vendor Page";
+    Layout = "_LayoutAdmin";
+}
+
+
+
+<div class="p-3">
+    <div class="mb-3 text-center">
+        <h3>Data Vendor</h3>
+    </div>
+    <div>
+
+        <a class="btn btn-primary mb-3 text-light " data-toggle="modal" data-target="#modalData"><i class="fa fa-plus"></i> Add Data</a>
+    </div>
+    <div class="card shadow mb-5" id="contoh">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-dark ">List Vendor</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover display nowrap dataTable dtr-inline table table-bordered table-striped text-center table-secondary table-hover" id="table_vendor">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Company Name </th>
+                            <th>Email </th>
+                            <th>Phone </th>
+                            <th>Status </th>
+                            <th>Photo </th>
+                            <th colspan="1">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class=" open-modal modal fade" id="modalData" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal Data Employee</h5>
+                <button type="button" class="close" onclick="window.location.reload()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" id="formValidation" name="nameModal" method="post">
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>NIK</label>
+                            <input type="text" class="form-control" id="nik" name="nik" placeholder="NIK....">
+                        </div>
+                        <div class="col">
+                            <label>First Name</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name....">
+                        </div>
+                        <div class="col">
+                            <label>Last Name</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name....">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Phone</label>
+                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone....">
+                        </div>
+                        <div class="col">
+                            <label>Birth Date</label>
+                            <input type="date" class="form-control" id="birthDate" name="birthDate" placeholder="Birth Date....">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Email</label>
+                            <input type="text" class="form-control" id="email" name="email" placeholder="Email....">
+                        </div>
+                        <div class="col" id="hidePass">
+                            <label>Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password....">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Gender</label>
+                            <select class="form-control" id="gender" required value="gender">
+                                <option value="-">-- Select Gender --</option>
+                                <option value="0">Male</option>
+                                <option value="1">Female</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label>Salary</label>
+                            <input type="text" class="form-control" id="salary" name="salary" placeholder="Salary....">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Degree</label>
+                            <select class="form-control" id="degree" required>
+                                <option value="-">-- Chosee Degree --</option>
+                                <option value="D1">D1</option>
+                                <option value="D2">D2</option>
+                                <option value="D3">D3</option>
+                                <option value="D4">D4</option>
+                                <option value="S1">S1</option>
+                                <option value="S2">S2</option>
+                                <option value="S3">S3</option>
+                            </select>
+                            @*   <input type="text" class="form-control" id="degree" name="degree" placeholder="Degree....">*@
+                        </div>
+                        <div class="col">
+                            <label>GPA</label>
+                            <input type="text" class="form-control" id="gpa" name="gpa" placeholder="GPA....">
+                        </div>
+                    </div>
+                    <div class="row mb-2" id="hideRow">
+                        <div class="col">
+                            <label>University</label>
+                            <select class="form-control" id="university_id">
+                            </select>
+                            @*  <input type="number" class="form-control" id="university_id" name="universiry_id" placeholder="University ID....">*@
+                        </div>
+                        <div class="col">
+                            <label>Role</label>
+                            <select class="form-control" id="role_id">
+                            </select>
+                            @* <input type="number" class="form-control" id="role_id" name="role_id" placeholder="Role Id....">*@
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class=" tombol btn btn-secondary" data-dismiss="modal" onclick="window.location.reload()">CLose</button>
+                <button id="btnAdd" type="submit" class="btn btn-primary">Add</button>
+                <button id="btnUpdate" type="button" class="btn btn-primary" style="display:none;" onclick="Update();">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Detail -->
+<div class=" open-modal modal fade" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detail Data Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="window.location.reload()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" id="" method="post">
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>NIK</label>
+                            <input type="text" class="form-control" id="dnik" name="nik" placeholder="NIK...." disabled>
+                        </div>
+                        <div class="col">
+                            <label>First Name</label>
+                            <input type="text" class="form-control" id="dfirstName" name="firstName" placeholder="First Name...." disabled>
+                        </div>
+                        <div class="col">
+                            <label>Last Name</label>
+                            <input type="text" class="form-control" id="dlastName" name="lastName" placeholder="Last Name...." disabled>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Phone</label>
+                            <input type="text" class="form-control" id="dphone" name="phone" placeholder="Phone...." disabled>
+                        </div>
+                        <div class="col">
+                            <label>Birth Date</label>
+                            <input type="Date" class="form-control" id="dbirthDate" name="dbirthDate" disabled>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Email</label>
+                            <input type="email" class="form-control" id="demail" name="email" placeholder="Email...." disabled>
+                        </div>
+                        <div class="col" id="hid">
+                            <label>Password</label>
+                            <input type="password" class="form-control" id="dpassword" name="dpassword" placeholder="Password...." disabled>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label for="dataGender">Gender</label>
+                            <select class="form-control" id="dgender" name="dgender" readonly>
+                                <option value="">-- Choose Gender --</option>
+                                <option value="0">Male</option>
+                                <option value="1">Female</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label>Salary</label>
+                            <input type="text" class="form-control" id="dsalary" name="salary" placeholder="Salary...." disabled>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Degree</label>
+                            <input type="text" class="form-control" id="ddegree" name="degree" placeholder="Degree...." disabled>
+                        </div>
+                        <div class="col">
+                            <label>GPA</label>
+                            <input type="text" class="form-control" id="dgpa" name="gpa" placeholder="GPA...." disabled>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>University Id</label>
+                            <input type="number" class="form-control" id="duniversiry_id" name="universiry_id" placeholder="University ID...." disabled>
+                        </div>
+                        <div class="col">
+                            <label>Role Id</label>
+                            <input type="number" class="form-control" id="drole_id" name="role_id" placeholder="Role Id...." disabled>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class=" tombol btn btn-secondary" data-dismiss="modal" onclick="window.location.reload()">CLose</button>
+                        @*   <button id="btnAdd" type="submit" class="btn btn-primary">Add</button>
+                        <button id="btnUpdate" type="button" class="btn btn-primary" style="display:none;" onclick="Update();">Update</button>*@
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "/Users/GetAllVendor",
+                success: function (result) {
+                   console.log(result)
+                }
+            });
+            $('#table_vendor').DataTable({
+                columnDefs: [{
+                    targets: [0],
+                    visible: false
+                }],
+                'ajax': {
+                    'url': "/Users/GetAllVendor",
+                    'order': [[0, 'asc']],
+                    'dataSrc': ''
+                },
+                'columns': [
+                    {
+                        data: 'no', name: 'id', render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    { data: 'companyName' },
+                    { data: 'email' },
+                    {
+                        data: 'phone',
+                        render: function (data, type, row, meta) {
+                            if (row['phone'].search(0) == 0) {
+                                return row['phone'].replace('0', '+62');
+                            } else {
+                                return row['phone'];
+                            }
+                        }
+                    },
+                    { data: 'status' },
+                    {
+                        data: 'photo',
+                        render: function (data, type, row, meta) {
+                            if (data) {
+                                return '<img src="data:image/png;base64,' + data + '" alt="Gambar" style="max-width:100px; max-height:100px;">';
+                            } else {
+                                return 'Tidak ada gambar';
+                            }
+                        }
+                    },
+                    {
+                        data: '',
+                        render: function (data, type, row, meta) {
+                            return `<td scope="row">
+                                    <a class="btn btn-warning btn-sm text-light" data-url="" onclick="getData('${row.email}')" title="Detail"><i class="fa fa-info-circle"></i></a>
+                                </td>
+                                <td scope="row">
+                                    <a class="btn btn-primary btn-sm text-light" data-url="" onclick="getNIK('${row.email}')" title="Update"><i class="far fa-edit"></i></a>
+                                </td>
+                                <td scope="row">
+                                    <button type="button" class="btn btn-danger btn-sm text-light" onclick="Delete('${row.email}')" title="Delete">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>`;
+                        }
+                    }
+                ],
+                
+            });
+        });
+
+    </script>
+}
+
