@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+@{
     ViewData["Title"] = "Home Page";
     Layout = "_LayoutAdmin";
 }
@@ -7,5 +9,173 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800 text-center">PT.XYZ</h1>
+    <h6 class="text-center">WELCOME TO WEBSITE</h6>
+    <hr class="sidebar-divider my-0">
 
+    @if (@HttpContextAccessor.HttpContext.Session.GetString("SessionRole") == "Vendor")
+    {
+        <div class="text-center" id="KetNull" style="display:none"></div>
+        <div class="text-center" id="KetNotNull" style="display:none"></div>
+        <a href="#" class="text-center btn btn-primary" style="display:none" id="btnleng" data-toggle="modal" data-target="#modalUpdate1">Lengkapi Data</a>
+    }
 </div>
+
+
+<div class=" open-modal modal fade" id="modalUpdate1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="window.location.reload()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" id="formValidation" name="nameModal" method="post" style="width:100%!important">
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Company Name</label>
+                            <input readonly type="text" class="form-control " id="uCompanyName" name="CompanyName" placeholder="Company Name....">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Email</label>
+                            <input readonly type="email" class="form-control " id="uEmailR" name="EmailR" placeholder="Email....">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Phone</label>
+                            <input type="text" class="form-control " id="uPhone" name="Phone" placeholder="Phone....">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Corpotrate Busineess</label>
+                            <input type="text" class="form-control " id="uCorpotrateBusineess" name="CorpotrateBusineess">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Type Corporate</label>
+                            <input type="text" class="form-control " id="uType" name="Type">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Status</label>
+                            <select disabled class="form-control" id="uStatus" aria-label="Default select example">
+                                <option value="">Pilih</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Approve">Approve</option>
+                                <option value="Reject">Reject</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Photo</label>
+                            <p style="text-align: center;">
+                                <img id="uPhotoDet" src="" width="250" height="250">
+                            </p>
+                            <input type="hidden" id="uPhoto-strImgBs64" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class=" tombol btn btn-secondary" data-dismiss="modal" onclick="window.location.reload()">CLose</button>
+                        <button id="btnUpdateVi" type="button" class="btn btn-primary">Update</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var dEmail = "@HttpContextAccessor.HttpContext.Session.GetString("SessionEmail")";
+            $.ajax({
+                url: "/Users/Get/" + dEmail,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result.status == "Pending") {
+                        $("#KetNull").show().html("<h3>Anda Belum dapat mengikuti proyek karena akun Anda belum di approve</h3> ")
+                    } else if (result.status == "Pending-1" && result.corporatebusiness == null && result.typeCompany == null) {
+                        $("#KetNotNull").show().html("<h3>Silahkan Lengkapi data anda sebelum mengikuti Proyek</h3> ")
+                        $("#btnleng").show();
+                    } else if(result.status == "Approve"){
+                        $("#KetNotNull").show().html("<h3>Selamat Bergabung. Silahkan Ikuti Proyek</h3> ")
+                    }
+                    $('#uCompanyName').val(result.companyName);
+                    $('#uEmailR').val(result.email);
+                    $('#uPhone').val(result.phone);
+                    $('#uCorpotrateBusineess').val(result.corporatebusiness);
+                    $('#uType').val(result.typeCompany);
+                    $('#uStatus').val(result.status);
+                    $('#uPhotoDet').attr('src', 'data:image/png;base64,' + result.photo);
+                    $('#uPhoto-strImgBs64').val(result.photo)
+                },
+                error: function (errormessage) {
+                    swal({
+                        title: "FAILED",
+                        text: "Data tidak ditemukan!",
+                        icon: "error"
+                    })
+                    return false;
+                }
+            });
+        });
+        $('#btnleng').click(function (e) {
+            $('#modalUpdate1').modal('show');
+        })
+        $('#btnUpdateVi').click(function (e) {
+            obj = {};
+            obj.CompanyName = $('#uCompanyName').val();
+            obj.Email = $('#uEmailR').val();
+            obj.Phone = $('#uPhone').val();
+            obj.Photo = $('#uPhoto-strImgBs64').val();
+            obj.Corporatebusiness = $('#uCorpotrateBusineess').val();
+            obj.TypeCompany = $('#uCorpotrateBusineess').val();
+            obj.Status = $('#uStatus').val();
+
+            $.ajax({
+                'url': "/Users/Put/" + obj.Email,
+                'type': 'PUT',
+                'data': { id: obj.Email, entity: obj },
+                'dataType': 'json',
+            }).done((result) => {
+                if (result == 200) {
+                    swal({
+                        title: "Good job!",
+                        text: "Data berhasil diupdate.",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(function () {
+                        window.location.reload();
+                    });
+                } else if (result == 400) {
+                    swal({
+                        title: "Failed!",
+                        text: "Data Gagal diupdate.",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
+            }).fail((error) => {
+                swal({
+                    title: "Failed!",
+                    text: "Data Gagal diupdate.",
+                    icon: "error",
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            })
+        });
+    </script>
+}

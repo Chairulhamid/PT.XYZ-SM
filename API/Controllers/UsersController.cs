@@ -34,26 +34,12 @@ namespace API.Controllers
             this._configuration = configuration;
             this.myContext = myContext;
         }
-
-        //[Authorize(Roles = "Director")]
-        //[Route("SignManager")]
-        //[HttpPost]
-        //public ActionResult SignManager(SignManagerVM signManagerVM)
-        //{
-        //    var result = employee.SignManager(signManagerVM);
-        //    if (result == 2)
-        //    {
-        //        return BadRequest(new { status = HttpStatusCode.BadRequest, message = "Data gagal dimasukkan: Email yang Anda masukkan belum sudah terdaftar!" });
-        //    }
-        //    return Ok(new { status = HttpStatusCode.OK, result = result, message = "Data Berhasil Dimasukan!!" });
-        //}
-
-        [Route("GetAllVendor")]
+        [Route("GetAllVendor/{id}")]
         [HttpGet]
-        public ActionResult<User> GetAllVendor()
+        public ActionResult<User> GetAllVendor(int id)
         {
 
-            var getEmpRole = user.GetAllVendor();
+            var getEmpRole = user.GetAllVendor(id);
             if (getEmpRole != null)
             {
                 return Ok(getEmpRole);
@@ -142,100 +128,22 @@ namespace API.Controllers
                 {
                     /* status = HttpStatusCode.OK, */
                     Token = idToken,
-                    Messages = "Login Berhasil!!"
+                    Messages = "Login Berhasil!!",
                 });
             }
             return Ok(new { status = HttpStatusCode.OK, result = result, message = "Login Gagal, Password yang anda masukan Salah" });
         }
-
-
-        ///*[Authorize(Roles = "Director, Manager")]*/
-        //[Route("Profile")]
-        //[HttpGet]
-        //public ActionResult<RegisterVM> GetProfile()
-        //{
-
-        //    var getProfile = employee.GetProfile();
-        //    if (getProfile.ToList().Count > 0)
-        //    {
-        //        return Ok(getProfile);
-        //    }
-        //    else
-        //    {
-        //        return NotFound(new { status = HttpStatusCode.NotFound, result = getProfile, message = "Tidak ada data di sini" });
-        //    }
-        //}
-        //[Route("Profile/{NIK}")]
-        //public   ActionResult<RegisterVM> GetProfileNik(string NIK)
-        //{
-        //    var ada = employee.GetProfileNik(NIK);
-        //    if (ada != null)
-        //    {
-        //        return Ok(ada);
-        //    }
-        //    return NotFound(new { status = HttpStatusCode.NotFound, result = ada, message = $"Data dengan NIK {NIK} tidak ditemukan" });
-        //}
-        //[Route("Gender")]
-        //[HttpGet]
-        //public ActionResult<RegisterVM> GetGender()
-        //{
-
-        //    var getGender = employee.GetGender();
-        //    if (getGender != null)
-        //    {
-        //        return Ok(new { status = HttpStatusCode.OK, result = getGender, message = "Data berhasil ditampilkan" });
-        //    }
-        //    else
-        //    {
-        //        return NotFound(new { status = HttpStatusCode.NotFound, result = getGender, message = "Tidak ada data di sini" });
-        //    }
-        //} 
-        //[Route("CountRole")]
-        //[HttpGet]
-        //public ActionResult<RegisterVM> GetEmpRole()
-        //{
-
-        //    var getEmpRole = employee.GetEmpRole();
-        //    if (getEmpRole != null)
-        //    {
-        //        return Ok(new { status = HttpStatusCode.OK, result = getEmpRole, message = "Data berhasil ditampilkan" });
-        //    }
-        //    else
-        //    {
-        //        return NotFound(new { status = HttpStatusCode.NotFound, result = getEmpRole, message = "Tidak ada data di sini" });
-        //    }
-        //} 
-        //[Route("CountSalary2")]
-        //[HttpGet]
-        //public ActionResult<RegisterVM> GetSalary2()
-        //{
-
-        //    var getSalary = employee.GetSalary2();
-        //    if (getSalary != null)
-        //    {
-        //        return Ok(new { status = HttpStatusCode.OK, result = getSalary, message = "Data berhasil ditampilkan" });
-        //    }
-        //    else
-        //    {
-        //        return NotFound(new { status = HttpStatusCode.NotFound, result = getSalary, message = "Tidak ada data di sini" });
-        //    }
-        //}  
-        //[Route("CountDegree")]
-        //[HttpGet]
-        //public ActionResult<RegisterVM> GetDegree()
-        //{
-
-        //    var getDegree = employee.GetDegree();
-        //    if (getDegree != null)
-        //    {
-        //        return Ok(new { status = HttpStatusCode.OK, result = getDegree, message = "Data berhasil ditampilkan" });
-        //    }
-        //    else
-        //    {
-        //        return NotFound(new { status = HttpStatusCode.NotFound, result = getDegree, message = "Tidak ada data di sini" });
-        //    }
-        //}
-
+        
+        [Route("GetDataVendor/{email}")]
+        public ActionResult<RegisterVM> GetDataVendor(string email)
+        {
+            var ada = user.GetDataVendor(email);
+            if (ada != null)
+            {
+                return Ok(ada);
+            }
+            return NotFound(new { status = HttpStatusCode.NotFound, result = ada, message = $"Data dengan NIK {email} tidak ditemukan" });
+        }
     }
 
 }

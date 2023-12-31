@@ -1,13 +1,4 @@
-﻿/*using API.ViewModel;
-using Client.Base.Urls;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using API.Models;*/
+﻿
 using API.ViewModel;
 using Client.Base.Controllers;
 using Client.Base.Urls;

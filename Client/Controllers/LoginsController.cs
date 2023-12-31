@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,18 +16,15 @@ namespace Client.Controllers
         private readonly LoginRepository repository;
         /*private readonly IJWTHandler jwtHandler;*/
 
-        public LoginsController(LoginRepository repository/*, IJWTHandler jwtHandler*/)
+        public LoginsController(LoginRepository repository)
         {
             this.repository = repository;
-           /* this.jwtHandler = jwtHandler;*/
 
         }
         public IActionResult Index()
         {
             return View();
         }
-        /* [ValidateAntiForgeryToken]*/
-        /*    [HttpPost("Auth/")]*/
         public async Task<IActionResult> Auth(LoginVM loginVM)
         {
             var jwtToken = await repository.Auth(loginVM);
@@ -36,13 +34,15 @@ namespace Client.Controllers
             {
                 return RedirectToAction("LogiinPage", "Home");
             }
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jsonToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
             HttpContext.Session.SetString("JWToken", token);
+            HttpContext.Session.SetString("SessionEmail", jsonToken.Claims.FirstOrDefault(c => c.Type == "email")?.Value);
+            HttpContext.Session.SetString("SessionRole", jsonToken.Claims.FirstOrDefault(c => c.Type == "roles")?.Value);
             /*HttpContext.Session.SetString("Name", jwtHandler.GetName(token));*/
             HttpContext.Session.SetString("ProfilePicture", "assets/img/theme/user.png");
-
             return RedirectToAction("Index", "Home");
         }
-        /* [HttpGet("Logout/")]*/
         [Authorize]
         public ActionResult Logout()
         {

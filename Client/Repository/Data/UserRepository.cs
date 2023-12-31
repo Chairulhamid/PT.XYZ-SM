@@ -27,11 +27,11 @@ namespace Client.Repository.Data
                 BaseAddress = new Uri(address.link)
             };
         }
-        public async Task<List<User>> GetAllVendor()
+        public async Task<List<User>> GetAllVendor(int id)
         {
             List<User> entities = new List<User>();
 
-            using (var response = await httpClient.GetAsync(request + "GetAllVendor"))
+            using (var response = await httpClient.GetAsync(request + "GetAllVendor/" + id))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 var dsfsdf = JsonConvert.DeserializeObject<List<User>>(apiResponse);
@@ -39,42 +39,23 @@ namespace Client.Repository.Data
             }
             return entities;
         }
-        //public async Task<List<RegisterVM>> GetNikEmployees(string id)
-        //{
-        //    List<RegisterVM> entities = new List<RegisterVM>();
+        public async Task<List<User>> GetDataVendor(string email)
+        {
+            List<User> entities = new List<User>();
 
-        //    using (var response = await httpClient.GetAsync(request + "Profile/" + id))
-        //    {
-        //        string apiResponse = await response.Content.ReadAsStringAsync();
-        //        entities = JsonConvert.DeserializeObject<List<RegisterVM>>(apiResponse);
+            using (var response = await httpClient.GetAsync(request + "GetDataVendor/" + email))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entities = JsonConvert.DeserializeObject<List<User>>(apiResponse);
 
-        //    }
-        //    return entities;
-        //}
+            }
+            return entities;
+        }
         public HttpStatusCode Post(UserVM entity)
         {
             StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
             var result = httpClient.PostAsync(address.link + request + "Register", content).Result;
             return result.StatusCode;
         }
-        //Newed
-        //public HttpStatusCode PostRegistration(User entity)
-        //{
-        //    StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
-        //    var result = httpClient.PostAsync(address.link + request + "RegisterNew", content).Result;
-        //    return result.StatusCode;
-        //}
-        //public async Task<JWTokenVM> Auth(LoginVM loginVM)
-        //{
-        //    JWTokenVM token = null;
-        //    StringContent content = new StringContent(JsonConvert.SerializeObject(loginVM), Encoding.UTF8, "application/json");
-        //    var result = await httpClient.PostAsync(request + "Login", content);
-        //    string apiResponse = await result.Content.ReadAsStringAsync();
-        //    token = JsonConvert.DeserializeObject<JWTokenVM>(apiResponse);
-
-        //    return token;
-        //}
-
-    
     }
 }

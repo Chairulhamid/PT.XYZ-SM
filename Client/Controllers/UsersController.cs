@@ -20,23 +20,34 @@ namespace Client.Controllers
         {
             this.repository = repository;
         }
-        public async Task<JsonResult> GetAllVendor()
+        public async Task<JsonResult> GetAllVendor(int id)
         {
-            var result = await repository.GetAllVendor();
+            var result = await repository.GetAllVendor(id);
             return Json(result);
         }
-        //public async Task<JsonResult> GetNikEmployees(string id)
-        //{
-        //    var result = await repository.GetNikEmployees(id);
-        //    return Json(result);
+        public async Task<JsonResult> GetAllVendorM()
+        {
+            var id = 2;
+            var result = await repository.GetAllVendor(id);
+            return Json(result);
+        }
+        public async Task<JsonResult> GetDataVendor(string email)
+        {
+            var result = await repository.GetDataVendor(email);
+            return Json(result);
 
-        //}
+        }
+        public async Task<JsonResult> GetDataUser(string email)
+        {
+            var result = await repository.GetDataVendor(email);
+            return Json(result);
+
+        }
         public JsonResult Register(UserVM entity)
         {
             var result = repository.Post(entity);
             return Json(result);
         }
-
     }
 }
  

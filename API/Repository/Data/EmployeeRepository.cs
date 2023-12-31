@@ -86,17 +86,6 @@ namespace API.Repository.Data
                          };
             return result;
         }
- /*       public IEnumerable GetSalary()
-        {
-            var result = from sale in myContext.Employees
-                         group sale by sale.Salary into x
-                         select new
-                         {
-                             salary = x.Key,
-                             value = x.Count()
-                         };
-            return result;
-        }*/
         public object[] GetSalary2()
         {
             var label1 = (from emp in myContext.Employees

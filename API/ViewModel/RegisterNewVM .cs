@@ -18,6 +18,9 @@ namespace API.ViewModel
         public string Phone { get; set; }
         public int RoleId { get; set; }
         public string Photo { get; set; }
+        public string Corporatebusiness { get; set; }
+        public string TypeCompany { get; set; }
+        public string Status { get; set; }
 
     }
    

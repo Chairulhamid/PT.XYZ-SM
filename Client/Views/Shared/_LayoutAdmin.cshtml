@@ -1,4 +1,7 @@
 ﻿<!DOCTYPE html>
+@using Microsoft.AspNetCore.Http;
+
+@inject IHttpContextAccessor HttpContextAccessor
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -37,7 +40,9 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-home"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">PT.XYZ</div>
+                <div class="sidebar-brand-text mx-3">
+                    PT.XYZ
+                </div>
             </a>
 
             <!-- Divider -->
@@ -45,35 +50,45 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" asp-controller="home" asp-action="Index" >
+                <a class="nav-link" asp-controller="home" asp-action="Index">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="home" asp-action="DataTable">
+            @if (@HttpContextAccessor.HttpContext.Session.GetString("SessionRole") == "Vendor")
+            {
+                <hr class="sidebar-divider my-0">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="home" asp-action="DataTable">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Data Employee</span>
+                    <span>Data Tender Proyek</span>
                 </a>
             </li>
+            }
+            @if (@HttpContextAccessor.HttpContext.Session.GetString("SessionRole") == "Admin")
+            {
+                <hr class="sidebar-divider my-0">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="home" asp-action="Vendor">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Master Vendor</span>
+                    </a>
+                </li>
+               
+            }
+            @if (@HttpContextAccessor.HttpContext.Session.GetString("SessionRole") == "Manager")
+            {
+                <hr class="sidebar-divider my-0">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="home" asp-action="VendorManager">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Master Vendor</span>
+                    </a>
+                </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="home" asp-action="ajax">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Data Pokemon</span>
-                </a>
-            </li>
-             <hr class="sidebar-divider my-0">
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="home" asp-action="Vendor">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Master Vendor</span>
-                </a>
-            </li>
+            }
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -118,9 +133,9 @@
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-search fa-fw"></i>
                             </a>
-                        <div class="topbar-divider d-none d-sm-block"></div>
+                            <div class="topbar-divider d-none d-sm-block"></div>
 
-                        <!-- Nav Item - User Information -->
+                            <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -170,46 +185,46 @@
 
         <!-- Logout Modal-->
         <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="/Logins/Logout">Logout</a>
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="/Logins/Logout">Logout</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
-        <script src="~/assets/vendor/datatables/jquery.dataTables.min.js"></script>
-        <script src="~/assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-        <script src="~/assets/js/demo/datatables-demo.js"></script>
-        <script type="text/javascript" src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-        <script src="~/js/belajarAjax.js" asp-append-version="true"></script>
-        <script src="~/js/dataTable.js" asp-append-version="true"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
-        @RenderSection("Scripts", required: false)
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+    <script src="~/assets/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/assets/js/demo/datatables-demo.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="~/js/belajarAjax.js" asp-append-version="true"></script>
+    <script src="~/js/dataTable.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+    @RenderSection("Scripts", required: false)
 
     </div>
-        </body>
+</body>
 
 </html>

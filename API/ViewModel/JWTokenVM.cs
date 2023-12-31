@@ -9,5 +9,6 @@ namespace API.ViewModel
     {
         public string Messages { get; set; } 
         public string Token { get; set; } 
+
     }
 }

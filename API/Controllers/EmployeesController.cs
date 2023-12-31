@@ -149,7 +149,8 @@ namespace API.Controllers
                 return Ok(new JWTokenVM {
                    /* status = HttpStatusCode.OK, */
                     Token = idToken, 
-                    Messages = "Login Berhasil!!"
+                    Messages = "Login Berhasil!!",
+                    
                 });
             }
             return Ok(new { status = HttpStatusCode.OK, result = result, message = "Login Gagal, Password yang anda masukan Salah" });
