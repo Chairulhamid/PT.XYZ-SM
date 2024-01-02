@@ -24,7 +24,7 @@ namespace Client.Controllers
             return View();
         }
         [Authorize]
-        public IActionResult DataTable()
+        public IActionResult Project()
         {
             return View();
         }

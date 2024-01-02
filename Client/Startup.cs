@@ -38,6 +38,7 @@ namespace Client
             services.AddScoped<Address>();
 
             services.AddScoped<UserRepository>();
+            services.AddScoped<ProjectRepository>();
 
             //JWT CLIENT
             services.AddAuthentication(auth =>

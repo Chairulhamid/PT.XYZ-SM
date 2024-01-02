@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
 namespace API.Context
@@ -26,6 +27,7 @@ namespace API.Context
         public DbSet<User> Users { get; set; }
         public DbSet<UsersAccount> UsersAccounts { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Project> Projects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -61,7 +63,16 @@ namespace API.Context
                 .HasOne(bc => bc.Role)
                 .WithMany(c => c.UserRoles)
                 .HasForeignKey(bc => bc.Role_Id);
+             
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.Projects)
+                .WithOne(e => e.User)
+                .HasForeignKey(e => e.Email)
+                .IsRequired(false);
+
+
+
         }
     }
-    
+
 }

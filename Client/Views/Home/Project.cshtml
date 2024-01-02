@@ -1,0 +1,178 @@
+﻿@using Microsoft.AspNetCore.Http;
+
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Vendor Page";
+    Layout = "_LayoutAdmin";
+}
+
+
+
+<div class="p-3">
+    <div class="mb-3 text-center">
+        <h3>Data Project</h3>
+    </div>
+    <div>
+    </div>
+    <div class="card shadow mb-5" id="contoh">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-dark ">List Projects</h6>
+        </div>
+        <a  href="#" class="text-center btn btn-primary" style="width:150px;margin:10px; display:none" id="btnlengcc" data-toggle="modal" data-target="#modalUpdate1">Add Project</a>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover display nowrap dataTable dtr-inline table table-bordered table-striped text-center table-secondary table-hover" id="table_p">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th> Name </th>
+                            <th>Description </th>
+                        </tr>
+                    </thead>
+                    <tbody id="">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class=" open-modal modal fade" id="modalUpdate1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="window.location.reload()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" id="formValidation" name="nameModal" method="post" style="width:100%!important">
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Project Name</label>
+                            <input  type="text" class="form-control " id="Name" name="Name" placeholder="Project Name....">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Description</label>
+                            <input type="text" class="form-control " id="Description" name="Description" placeholder="Description....">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class=" tombol btn btn-secondary" data-dismiss="modal" onclick="window.location.reload()">CLose</button>
+                        <button id="btnUpdateVi" type="button" class="btn btn-primary">Save</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        var obj = new Object();
+            var dEmail = "@HttpContextAccessor.HttpContext.Session.GetString("SessionEmail")";
+        $(document).ready(function () {
+            $('#table_p').DataTable({
+                columnDefs: [{
+                    targets: [0],
+                    visible: false
+                }],
+                'ajax': {
+                    'url': "/Projects/GetAllProject" ,
+                    'data': {email:dEmail},
+                    'order': [[0, 'asc']],
+                    'dataSrc': '',
+                },
+                'columns': [
+                    {
+                        data: 'no', name: 'id', render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    { data: 'name' },
+                    { data: 'description' },
+                ],
+
+            });
+
+            $.ajax({
+                url: "/Users/Get/" + dEmail,
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result.status == "Approve") {
+                        $("#btnlengcc").show();
+                    }
+                },
+                error: function (errormessage) {
+                    swal({
+                        title: "FAILED",
+                        text: "Data tidak ditemukan!",
+                        icon: "error"
+                    })
+                    return false;
+                }
+            });
+
+
+
+        });
+        $('#btnUpdateVi').click(function (e) {
+            obj = {};
+            obj.Name = $('#Name').val();
+            obj.Description = $('#Description').val();
+            obj.Email = dEmail;
+            var isEmpty = Object.values(obj).some(value => !value);
+            if (isEmpty) {
+                swal({
+                    icon: 'warning',
+                    text: 'Please fill in all the required fields.',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            } else {
+                console.log(obj)
+                $.ajax({
+                    url: "/Projects/Post",
+                    'type': 'POST',
+                    'data': { entity: obj },
+                    'dataType': 'json',
+                }).done((result) => {
+                    if (result == 200) {
+                        swal({
+                            title: "Good job!",
+                            text: "Data Berhasil ditambahakan ",
+                            icon: "success",
+                            showConfirmButton: false,
+                            timer: 2000
+                        }).then(function () {
+                            window.location.reload();
+                        });
+                    } else if (result == 400) {
+                        swal({
+                            title: "Failed!",
+                            text: "Data Gagal ditambahkan.",
+                            icon: "error",
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+                }).fail((error) => {
+                    swal({
+                        title: "Failed!",
+                        text: "Data Gagal ditambahkan.",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                })
+
+            }
+        });
+    </script>
+}
+

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
@@ -24,8 +25,7 @@ namespace API.Models
         public string Status { get; set; }
         [JsonIgnore]
         public virtual UsersAccount UsersAccount { get; set; }
-
-
+        public virtual ICollection<Project> Projects { get; } = new List<Project>();
     }
 
 }

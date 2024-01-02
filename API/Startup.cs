@@ -36,6 +36,7 @@ namespace API
             services.AddScoped<AccountRoleRepository>();
 
             services.AddScoped<UserRepository>();
+            services.AddScoped<ProjectRepository>();
             services.AddDbContext<MyContext>(options => options.UseSqlServer(Configuration.GetConnectionString("APIContext")));
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddCors(c =>

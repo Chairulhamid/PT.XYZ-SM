@@ -28,6 +28,10 @@
     <Compile Include="Migrations\20231230075126_updateUser.Designer.cs" />
     <Compile Include="Migrations\20231230110158_removedatabase.cs" />
     <Compile Include="Migrations\20231230110158_removedatabase.Designer.cs" />
+    <Compile Include="Migrations\20240102090019_AttProjectTB.cs" />
+    <Compile Include="Migrations\20240102090019_AttProjectTB.Designer.cs" />
+    <Compile Include="Migrations\20240102093745_AttProjectTB12.cs" />
+    <Compile Include="Migrations\20240102093745_AttProjectTB12.Designer.cs" />
     <Compile Include="Migrations\MyContextModelSnapshot.cs" />
   </ItemGroup>
 

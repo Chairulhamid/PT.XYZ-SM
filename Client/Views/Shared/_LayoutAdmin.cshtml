@@ -56,11 +56,11 @@
                 </a>
             </li>
             <!-- Divider -->
-            @if (@HttpContextAccessor.HttpContext.Session.GetString("SessionRole") == "Vendor")
+            @if (@HttpContextAccessor.HttpContext.Session.GetString("SessionRole") == "Vendor"  )
             {
                 <hr class="sidebar-divider my-0">
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="home" asp-action="DataTable">
+                    <a class="nav-link" asp-controller="home" asp-action="Project">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Data Tender Proyek</span>
                 </a>

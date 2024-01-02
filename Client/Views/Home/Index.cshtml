@@ -68,7 +68,7 @@
                             <select disabled class="form-control" id="uStatus" aria-label="Default select example">
                                 <option value="">Pilih</option>
                                 <option value="Pending">Pending</option>
-                                <option value="Approve">Approve</option>
+                                <option value="Pending-1">Approve</option>
                                 <option value="Reject">Reject</option>
                             </select>
                         </div>
@@ -139,7 +139,7 @@
             obj.Phone = $('#uPhone').val();
             obj.Photo = $('#uPhoto-strImgBs64').val();
             obj.Corporatebusiness = $('#uCorpotrateBusineess').val();
-            obj.TypeCompany = $('#uCorpotrateBusineess').val();
+            obj.TypeCompany = $('#uType').val();
             obj.Status = $('#uStatus').val();
 
             $.ajax({
