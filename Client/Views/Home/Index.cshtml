@@ -16,7 +16,10 @@
     {
         <div class="text-center" id="KetNull" style="display:none"></div>
         <div class="text-center" id="KetNotNull" style="display:none"></div>
-        <a href="#" class="text-center btn btn-primary" style="display:none" id="btnleng" data-toggle="modal" data-target="#modalUpdate1">Lengkapi Data</a>
+        <div class="col-12 text-center">
+            <a href="#" class="text-center btn btn-primary" style="display:none" id="btnleng" data-toggle="modal" data-target="#modalUpdate1"> klik Lengkapi Data</a>
+        </div>
+        
     }
 </div>
 
@@ -107,8 +110,15 @@
                     } else if (result.status == "Pending-1" && result.corporatebusiness == null && result.typeCompany == null) {
                         $("#KetNotNull").show().html("<h3>Silahkan Lengkapi data anda sebelum mengikuti Proyek</h3> ")
                         $("#btnleng").show();
-                    } else if(result.status == "Approve"){
+                    } else if (result.status == "Pending-1") {
+                        $("#KetNotNull").show().html("<h3>Saat ini Anda sedang menunggu Persetujuan Untuk menginkuti Tender </h3> ")
+                    }
+                    else if(result.status == "Approve"){
                         $("#KetNotNull").show().html("<h3>Selamat Bergabung. Silahkan Ikuti Proyek</h3> ")
+                    } else if (result.status == "Reject") {
+                        $("#KetNotNull").show().html("<h3>Maaf, Persetujuan Anda ditolak. Anda tidak Dapat Submit Project, Terima kasih </h3> ")
+                    } else{
+                        $("#KetNotNull").show().html("<h3>Prosess... </h3> ")
                     }
                     $('#uCompanyName').val(result.companyName);
                     $('#uEmailR').val(result.email);

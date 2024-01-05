@@ -12,6 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\EmployeesController.cs" />
+    <Compile Remove="Repository\Data\EmployeeRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="Migrations\20231230030416_initial.cs" />
     <Compile Include="Migrations\20231230030416_initial.Designer.cs" />
     <Compile Include="Migrations\20231230055332_addTBUser.cs" />

@@ -28,7 +28,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<EmployeeRepository>();
+            //services.AddScoped<EmployeeRepository>();
            
             services.AddScoped<AccountRepository>();
 
