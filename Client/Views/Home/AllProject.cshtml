@@ -1,0 +1,69 @@
+﻿@using Microsoft.AspNetCore.Http;
+
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Project Page";
+    Layout = "_LayoutAdmin";
+}
+
+
+
+<div class="p-3">
+    <div class="mb-3 text-center">
+        <h3>Data List Project</h3>
+    </div>
+    <div>
+    </div>
+    <div class="card shadow mb-5" id="contoh">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-dark ">List All Projects</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover display nowrap dataTable dtr-inline table table-bordered table-striped text-center  table-hover" id="table_All">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Email</th>
+                            <th>Project Name</th>
+                            <th>Description </th>
+                        </tr>
+                    </thead>
+                    <tbody id="">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#table_All').DataTable({
+                columnDefs: [{
+                    targets: [0],
+                    visible: false
+                }],
+                'ajax': {
+                    'url': "/Projects/GetAll",
+                    'data':"",
+                    'order': [[0, 'asc']],
+                    'dataSrc': '',
+                },
+                'columns': [
+                    {
+                        data: 'no', name: 'id', render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    { data: 'email' },
+                    { data: 'name' },
+                    { data: 'description' },
+                ],
+
+            });
+        });
+    </script>
+}
+

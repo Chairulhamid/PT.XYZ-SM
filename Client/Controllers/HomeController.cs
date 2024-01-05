@@ -51,6 +51,12 @@ namespace Client.Controllers
         {
             return View();
         }
+        [Authorize]
+        public IActionResult AllProject()
+        {
+            return View();
+        }
+        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

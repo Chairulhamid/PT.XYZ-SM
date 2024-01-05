@@ -75,6 +75,13 @@
                         <span>Master Vendor</span>
                     </a>
                 </li>
+                <hr class="sidebar-divider my-0">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="home" asp-action="AllProject">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>List Project</span>
+                    </a>
+                </li>
                
             }
             @if (@HttpContextAccessor.HttpContext.Session.GetString("SessionRole") == "Manager")
@@ -88,13 +95,6 @@
                 </li>
 
             }
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-
-
         </ul>
         <!-- End of Sidebar -->
         <!-- Content Wrapper -->
@@ -157,11 +157,12 @@
                 </nav>
                 <!-- End of Topbar -->
                 <!-- Begin Page Content -->
-                <div class="">
-                    <main role="main" class=" main pb-3">
+                <div class="container-fluid">
+                   <main role="main" class=" main pb-3">
                         @RenderBody()
                     </main>
                 </div>
+            </div>
                 <!-- End of Main Content -->
                 <!-- Footer -->
                 <footer class="sticky-footer bg-white">
@@ -171,9 +172,9 @@
                         </div>
                     </div>
                 </footer>
+                </div>
                 <!-- End of Footer -->
 
-            </div>
             <!-- End of Content Wrapper -->
 
         </div>
